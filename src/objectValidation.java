@@ -32,16 +32,23 @@ class PessoaJuridica extends Pessoa {
 }
 
 
-class PessoaFisicaValidator implements Validator<Pessoa>{
+class PessoaValidator implements Validator<Pessoa>{
 	@Override
 	public void validate(Pessoa o) throws Exception {
 		System.out.println(o.getName() + '-' + getClass().getSimpleName());
 	}
 }
 
-class PessoaJuridicaValidator implements Validator<Pessoa>{
+class PessoaFisicaValidator implements Validator<PessoaFisica>{
 	@Override
-	public void validate(Pessoa o) throws Exception {
+	public void validate(PessoaFisica o) throws Exception {
+		System.out.println(o.getName() + '-' + getClass().getSimpleName());
+	}
+}
+
+class PessoaJuridicaValidator implements Validator<PessoaJuridica>{
+	@Override
+	public void validate(PessoaJuridica o) throws Exception {
 		System.out.println(o.getName() + '-' + getClass().getSimpleName());
 	}
 }
@@ -51,6 +58,7 @@ class ValidatorFactory<T>{
 	
 	public ValidatorFactory(){
 		map = new HashMap<Class, Validator>();
+		map.put(Pessoa.class, new PessoaValidator());
 		map.put(PessoaFisica.class, new PessoaFisicaValidator());
 		map.put(PessoaJuridica.class, new PessoaJuridicaValidator());
 	}
@@ -68,6 +76,7 @@ public class objectValidation {
 	 */
 	public static void main(String[] args) throws Exception {
 		List<Pessoa> pessoas = new ArrayList<Pessoa>();
+		pessoas.add(new Pessoa("Uma pessoa simples"));
 		pessoas.add(new PessoaFisica("João"));
 		pessoas.add(new PessoaFisica("José"));
 		pessoas.add(new PessoaJuridica("Maria"));
