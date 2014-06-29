@@ -53,16 +53,19 @@ class PessoaJuridicaValidator implements Validator<PessoaJuridica>{
 	}
 }
 
-class ValidatorFactory<T>{
+class ValidatorStrategy<T>{
 	Map<Class, Validator> map = null;
-	
-	public ValidatorFactory(){
+
+	public ValidatorStrategy(){
+		
+		// Cadastro dos vários tipos de validadores
+		// para cara tipo de entidade.
 		map = new HashMap<Class, Validator>();
 		map.put(Pessoa.class, new PessoaValidator());
 		map.put(PessoaFisica.class, new PessoaFisicaValidator());
 		map.put(PessoaJuridica.class, new PessoaJuridicaValidator());
 	}
-	
+
 	public Validator get(Class objectType){
 		return map.get(objectType);
 	}
@@ -81,7 +84,7 @@ public class objectValidation {
 		pessoas.add(new PessoaFisica("José"));
 		pessoas.add(new PessoaJuridica("Maria"));
 		
-		ValidatorFactory<Pessoa> validator = new ValidatorFactory<Pessoa>();
+		ValidatorStrategy<Pessoa> validator = new ValidatorStrategy<Pessoa>();
 		
 		for (Pessoa p: pessoas){
 			validator
